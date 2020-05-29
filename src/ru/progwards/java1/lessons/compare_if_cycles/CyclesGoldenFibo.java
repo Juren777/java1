@@ -32,19 +32,19 @@ public class CyclesGoldenFibo {
 
     public static boolean isGoldenTriangle(int a, int b, int c){
         double a1 = a, c1 = c;
-
+    //    System.out.println(c1 / a1);
         return (c1 / a1) > 1.61703 && (c1 / a1) < 1.61903;
     }
 
 
     public static void main(String[] args) {
-
-        containsDigit(567,5);
+        System.out.println(isGoldenTriangle(34,55,55));
+        //containsDigit(567,5);
         for (int i = 1; i <= 15; i++){
             System.out.println(fiboNumber(i));
             for (int j = 1; j <= 100; j++){
                 if (isGoldenTriangle(fiboNumber(i),j,j)){
-                    System.out.println("длинна боковой стороны = " + j + "  основание = " + fiboNumber(i));
+                    System.out.println("  основание = " + fiboNumber(i) + "  длинна боковой стороны = " + j);
                 }
             }
         }
