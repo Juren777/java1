@@ -11,4 +11,9 @@ public class ComplexNum {
     public String toString() {
         return a + "+" + b + "i";
     }
+
+    public ComplexNum add(ComplexNum num){
+        return new ComplexNum((a + num.a), (b += num.b));
+    //    (a + bi) + (c + di) = (a + c) + (b + d)i
+    }
 }

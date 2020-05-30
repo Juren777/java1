@@ -40,11 +40,4 @@ public class Animal {
 
     }
 
-    public static void main(String[] args) {
-//        Animal animal = new Animal(0d);
-//        System.out.println(animal.toStringFull());
-//        Cow cow = new Cow(720);
-//        System.out.println(cow.toStringFull());
-    }
-
 }
