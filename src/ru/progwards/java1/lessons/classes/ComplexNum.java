@@ -29,9 +29,9 @@ public class ComplexNum {
 
     public ComplexNum div(ComplexNum num){
         return new ComplexNum(
-                ((a*num.a + b*num.b )/(a*a +num.b*num.b))
+                ((a*num.a + b*num.b )/(num.a*num.a +num.b*num.b))
                 ,((b*num.a - a*num.b)/(num.a*num.a + num.b*num.b))
-//        (a + bi) / (c + di) = (a*c + b*d)/(c*c+d*d) + ((b*c - a*d)/(c*c+d*d))i
+//(a + bi) / (c + di) = (a*c + b*d)/(c*c+d*d) + ((b*c - a*d)/(c*c+d*d))i
         );
     }
 
