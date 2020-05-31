@@ -23,7 +23,7 @@ protected void sift() {
     }
 
     public boolean isSimple(int n){
-        return sieve[n - 1];
+        return sieve[n + 1];
     }
 
 }
