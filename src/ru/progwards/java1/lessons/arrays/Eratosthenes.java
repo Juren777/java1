@@ -14,7 +14,7 @@ public class Eratosthenes {
         }
     }
 // TODO private
-private void sift() {
+protected void sift() {
         for (int i = 2; i < sieve.length - 1; i++) {
             for (int j = i; j * i < sieve.length; j++) {
                 sieve[j * i] = false;
@@ -23,7 +23,7 @@ private void sift() {
     }
 
     public boolean isSimple(int n){
-        return sieve[n];
+        return sieve[n - 1];
     }
 
 }
