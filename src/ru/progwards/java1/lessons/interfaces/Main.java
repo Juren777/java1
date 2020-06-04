@@ -1,4 +1,4 @@
-package ru.progwards.java1.lessons.interfaces;
+/*package ru.progwards.java1.lessons.interfaces;
 
 import ru.progwards.java1.lessons.classes.Animal;
 import ru.progwards.java1.lessons.classes.Duck;
@@ -10,4 +10,4 @@ public class Main {
         System.out.println(duck.equals(duck1));
         System.out.println(duck.compareFoodPrice(duck1));
     }
-}
+}*/
