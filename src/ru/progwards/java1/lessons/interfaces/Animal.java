@@ -2,8 +2,28 @@ package ru.progwards.java1.lessons.interfaces;
 
 import java.util.Objects;
 
-public class Animal implements FoodCompare{
+public class Animal implements FoodCompare, CompareWeight{
+    double weight;
 
+    @Override
+    public CompareResult compareWeight(CompareWeight smthHasWeigt) {
+        switch (Double.compare(this.getWeight(), smthHasWeigt.getValue())){
+            case -1: return CompareResult.LESS;
+            case 0: return CompareResult.EQUAL;
+            case 1: return CompareResult.GREATER;
+        }
+
+        return null;
+    }
+
+    @Override
+    public double getValue() {
+        return getWeight();
+    }
+
+    public double getWeight() {
+        return this.weight;
+    }
     @Override
     public int compareFoodPrice(Animal animal) {
         return Double.compare(this.getFoodPrice(), animal.getFoodPrice());
@@ -24,7 +44,6 @@ public class Animal implements FoodCompare{
     public double getFoodPrice(){
         return calculateFoodWeight() * getFood1kgPrice();
     }
-    double weight;
 
     public Animal(double weight) {
         this.weight = weight;
@@ -36,10 +55,6 @@ public class Animal implements FoodCompare{
 
     public FoodKind getFoodKind() {
         return FoodKind.UNKNOWN;
-    }
-
-    public double getWeight() {
-        return this.weight;
     }
 
     public double getFoodCoeff(){
