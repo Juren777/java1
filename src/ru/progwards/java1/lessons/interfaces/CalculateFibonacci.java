@@ -10,7 +10,7 @@ public class CalculateFibonacci {
     }
 
     public static void clearLastFibo() {
-        lastFibo = null;
+        lastFibo = new CacheInfo();;
     }
 
     public static CacheInfo getLastFibo() {
@@ -19,7 +19,7 @@ public class CalculateFibonacci {
 
 
     public static int fiboNumber(int n) {
-        if (lastFibo !=null && n == lastFibo.n) {
+        if (n == lastFibo.n) {
             return lastFibo.fibo;
         } else {
             if (n == 1 || n == 2) {
