@@ -1,13 +1,10 @@
-/*package ru.progwards.java1.lessons.interfaces;
-
-import ru.progwards.java1.lessons.classes.Animal;
-import ru.progwards.java1.lessons.classes.Duck;
+package ru.progwards.java1.lessons.interfaces;
 
 public class Main {
     public static void main(String[] args) {
-        Animal duck = new Duck(20);
-        Animal duck1 = new Duck(20);
-        System.out.println(duck.equals(duck1));
-        System.out.println(duck.compareFoodPrice(duck1));
+/*        Animal animal1 = new Animal(9);
+        Animal animal2 = new Animal(7);
+        System.out.println(animal1.equals(animal2));
+        System.out.println(animal1.compareFoodPrice(animal2));*/
     }
-}*/
+}
