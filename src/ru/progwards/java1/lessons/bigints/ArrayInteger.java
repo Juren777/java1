@@ -52,13 +52,4 @@ public class ArrayInteger {
         return true;
     }
 
-    public static void main(String[] args) {
-        ArrayInteger ai1 = new ArrayInteger(7);
-        ai1.fromInt(new BigInteger("9702436"));
-        System.out.println("toInt = " + ai1.toInt());
-        ArrayInteger ai2 = new ArrayInteger(5);
-        ai2.fromInt(new BigInteger("81293"));
-        ai1.add(ai2);
-        System.out.println("toInt = " + ai1.toInt()); //9783729
-    }
 }
