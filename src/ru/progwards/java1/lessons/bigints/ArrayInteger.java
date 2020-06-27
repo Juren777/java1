@@ -13,7 +13,7 @@ public class ArrayInteger {
 
     void fromInt(BigInteger value){
         int size = value.toString().length();
-        for (int i = size - 1; i >= 0; i--){
+        for (int i = 0; i < size; i++){
             digits[i] = value.mod(BigInteger.TEN).byteValue();
             value = value.divide(BigInteger.TEN);
         }
@@ -22,16 +22,32 @@ public class ArrayInteger {
 
     BigInteger toInt(){
         String val = "";
-        for (int i = 0; i < digits.length; i++){
+        for (int i = digits.length - 1; i >=0 ; i--){
             val += digits[i];
         }
         return new BigInteger(val);
     }
 
-/*    public static void main(String[] args) {
-        ArrayInteger arrayInteger = new ArrayInteger(3);
+    boolean add(ArrayInteger num){
 
-        arrayInteger.fromInt(new BigInteger("935"));
-        System.out.println("toInt = " + arrayInteger.toInt());
-    }*/
+        for (int i = 0; i < digits.length; i++ ){
+            if ((this.digits[i] + num.digits[i]) > 9 ){
+                return false;
+            }
+            this.digits[i] += num.digits[i];
+        }
+
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        ArrayInteger arrayInteger1 = new ArrayInteger(3);
+        arrayInteger1.fromInt(new BigInteger("435"));
+        System.out.println("toInt = " + arrayInteger1.toInt());
+        ArrayInteger arrayInteger2 = new ArrayInteger(3);
+        arrayInteger2.fromInt(new BigInteger("112"));
+        arrayInteger1.add(arrayInteger2);
+        System.out.println("toInt = " + arrayInteger1.toInt());
+    }
 }
