@@ -29,12 +29,23 @@ public class ArrayInteger {
     }
 
     boolean add(ArrayInteger num){
-
+        if (this.digits.length < num.digits.length){
+            return false;
+        }
+        int dec = 0;
         for (int i = 0; i < digits.length; i++ ){
-            if ((this.digits[i] + num.digits[i]) > 9 ){
+            if (i == num.digits.length){
                 return false;
             }
-            this.digits[i] += num.digits[i];
+            if ((this.digits[i] + num.digits[i]) < 10){
+                this.digits[i] += (num.digits[i] + dec);
+                dec = 0;
+            } else{
+                this.digits[i] += (num.digits[i] + dec);
+                this.digits[i] %= 10;
+                dec = 1;
+            }
+
         }
 
 
@@ -42,12 +53,12 @@ public class ArrayInteger {
     }
 
     public static void main(String[] args) {
-        ArrayInteger arrayInteger1 = new ArrayInteger(3);
-        arrayInteger1.fromInt(new BigInteger("435"));
-        System.out.println("toInt = " + arrayInteger1.toInt());
-        ArrayInteger arrayInteger2 = new ArrayInteger(3);
-        arrayInteger2.fromInt(new BigInteger("112"));
-        arrayInteger1.add(arrayInteger2);
-        System.out.println("toInt = " + arrayInteger1.toInt());
+        ArrayInteger ai1 = new ArrayInteger(7);
+        ai1.fromInt(new BigInteger("9702436"));
+        System.out.println("toInt = " + ai1.toInt());
+        ArrayInteger ai2 = new ArrayInteger(5);
+        ai2.fromInt(new BigInteger("81293"));
+        ai1.add(ai2);
+        System.out.println("toInt = " + ai1.toInt()); //9783729
     }
 }
