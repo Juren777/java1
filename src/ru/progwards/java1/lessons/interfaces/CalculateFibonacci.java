@@ -10,17 +10,16 @@ public class CalculateFibonacci {
     }
 
     public static void clearLastFibo() {
-        lastFibo = new CacheInfo();;
+        lastFibo = null;
     }
 
     public static CacheInfo getLastFibo() {
         return lastFibo;
     }
 
-
     public static int fiboNumber(int n) {
-        if (n == lastFibo.n) {
-            return lastFibo.fibo;
+        if (getLastFibo().n == n) {
+            return getLastFibo().fibo;
         } else {
             if (n == 1 || n == 2) {
                 return 1;
