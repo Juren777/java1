@@ -8,8 +8,9 @@ public class ByteInteger extends AbsInteger{
         this.var = var;
     }
 
-    public Byte getVar() {
-        return var;
+    @Override
+    public Integer getVar() {
+        return var.intValue();
     }
 
     @Override
