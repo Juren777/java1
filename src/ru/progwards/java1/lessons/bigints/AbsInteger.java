@@ -16,13 +16,4 @@ public abstract class AbsInteger {
         }
     }
 
-
-
-    public static void main(String[] args) {
-
-        ByteInteger byteInteger = new ByteInteger((byte)12);
-        ShortInteger shortInteger = new ShortInteger((short)15);
-        System.out.println(add(byteInteger, shortInteger));
-
-    }
 }

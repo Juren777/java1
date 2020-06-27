@@ -3,13 +3,11 @@ package ru.progwards.java1.lessons.interfaces;
 import ru.progwards.java1.lessons.bigints.*;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class Main {
     public static void main(String[] args) {
 
-        ByteInteger byteInteger = new ByteInteger((byte)12);
-        ShortInteger shortInteger = new ShortInteger((short)15);
-        System.out.println();
 
 
 //        BigAlgebra bigAlgebra = new BigAlgebra();
