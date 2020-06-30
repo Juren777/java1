@@ -21,11 +21,11 @@ public class CharFilter {
                         }
                     }
                     try {
-                        FileWriter logFile = new FileWriter(outFileName, true);
+                        FileWriter fileWriter = new FileWriter(outFileName, true);
                         try {
-                            logFile.write(out + "\n");
+                            fileWriter.write(out);
                         } finally {
-                            logFile.close();
+                            fileWriter.close();
                         }
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
