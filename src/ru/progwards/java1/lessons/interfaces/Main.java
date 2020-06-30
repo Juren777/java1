@@ -4,6 +4,7 @@ import ru.progwards.java1.lessons.bigints.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,8 +16,8 @@ public class Main {
 //        BigDecimal result = bigAlgebra.fastPow(new BigDecimal("5"), 4);
 //        System.out.println(result);
 //        System.out.println(bigAlgebra.fibonacci(12));
-//        Animal animal1 = new Cow(750);
-//        Animal animal2 = new Hamster(9);
+        Animal animal1 = new Cow(750);
+        Animal animal2 = new Hamster(9);
 //        System.out.println(animal1.equals(animal2));
 //        System.out.println(animal1.compareFoodPrice(animal2));
 //        CalculateFibonacci.fiboNumber(29);
@@ -25,6 +26,11 @@ public class Main {
 //        System.out.println(CalculateFibonacci.fiboNumber(29));
 //        System.out.println(animal1.compareWeight(animal2));
 //        System.out.println(new Food(5).compareWeight(new Food(5)));
+
+        Animal[] animals = {animal1, animal2};
+        System.out.println(Arrays.toString(animals));
+        ArraySort.sort(animals);
+        System.out.println(Arrays.toString(animals));
 
     }
 }

@@ -19,4 +19,11 @@ public class Hamster extends Animal {
     public double getFoodCoeff() {
         return 0.03;
     }
+
+    @Override
+    public String toString() {
+        return "Hamster{" +
+                "weight=" + weight +
+                '}';
+    }
 }
