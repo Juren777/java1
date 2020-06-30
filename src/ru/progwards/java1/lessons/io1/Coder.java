@@ -10,7 +10,7 @@ public class Coder {
         try{
             FileWriter fileWriter = new FileWriter(outFileName, true);
             try{
-                fileWriter.write(out);
+                fileWriter.write(out + "\n");
             } finally {
                 fileWriter.close();
             }
