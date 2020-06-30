@@ -20,7 +20,6 @@ public class CharFilter {
                         }
                     }
                     out += "\n";
-                    System.out.println(out);
                 }
             } finally {
                 fileReader.close();
