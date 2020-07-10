@@ -1,20 +1,21 @@
 package ru.progwards.java1.lessons.io1;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Coder {
-    static void writer(String outFileName, String out){
-        try{
-            FileWriter fileWriter = new FileWriter(outFileName, true);
-            try{
-                fileWriter.write(out + "\n");
+    static void writer(String outFileName, String out) {
+        try {
+            FileWriter fileWriter = new FileWriter(outFileName);
+            try {
+                fileWriter.write(out);
             } finally {
                 fileWriter.close();
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -22,22 +23,13 @@ public class Coder {
 
     public static void codeFile(String inFileName, String outFileName, char[] code, String logName) {
         try {
-            FileReader fileReader = new FileReader(inFileName);
-            try{
-                Scanner scanner = new Scanner(fileReader);
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    String out = new String();
-                    for (char ch : line.toCharArray()) {
-                        int v = ch;
-                        out += code[v];
-                        }
-                    writer(outFileName, out);
-                    }
-
-            }finally {
-                fileReader.close();
+            FileInputStream fis = new FileInputStream(inFileName);
+            byte[] ch = fis.readAllBytes();
+            String out = new String();
+            for (byte b : ch) {
+                out += code[b];
             }
+            writer(outFileName, out);
         } catch (IOException e) {
             writer(logName, e.getMessage());
         }

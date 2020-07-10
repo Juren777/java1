@@ -16,7 +16,7 @@ public class Test1 {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        char[] code = new String("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff").toCharArray();
-        Coder.codeFile("file.txt", "file1.txt", code, "log.txt");
+     //   char[] code = new String("ffffffffffffffffffffffffffffffffffffffffffffffffabcdefghijklmnop").toCharArray();
+     //   Coder.codeFile("file.txt", "file1.txt", code, "log.txt");
     }
 }
