@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        char[] code = new String("ffffffffffffffffffffffffffffffffffffffffffffffffabcdefghijklmnop").toCharArray();
+        char[] code = new String("abcdefghijklmnop").toCharArray();
         Coder.codeFile("file.txt", "file1.txt", code, "log.txt");
 
     }
