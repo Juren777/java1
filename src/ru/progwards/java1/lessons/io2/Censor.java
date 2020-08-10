@@ -34,11 +34,11 @@ public class Censor {
             raf.writeBytes(out.toString().trim());
 
         } catch (FileNotFoundException e) {
-            throw new CensorException(e.getMessage());
+            throw new CensorException(inoutFileName + ":" + e.getMessage());
         } catch (IOException e) {
-            throw new CensorException(e.getMessage());
+            throw new CensorException(inoutFileName + ":" + e.getMessage());
         } catch (NullPointerException e){
-            throw new CensorException(e.getMessage());
+            throw new CensorException(inoutFileName + ":" + e.getMessage());
         }
     }
 }
