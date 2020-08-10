@@ -30,7 +30,4 @@ public class PhoneNumber {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(format("8(999)111-22-33"));
-    }
 }
