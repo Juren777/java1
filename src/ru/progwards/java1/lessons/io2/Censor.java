@@ -26,7 +26,6 @@ public class Censor {
             }
             raf.seek(0);
             raf.writeBytes(out.toString().trim());
-            System.out.println(out);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
