@@ -6,7 +6,13 @@ import java.io.RandomAccessFile;
 
 public class Censor {
 
-    public static void censorFile(String inoutFileName, String[] obscene){
+    static class CensorException extends Exception{
+        public CensorException(String msg) {
+            super(msg);
+        };
+    }
+
+    public static void censorFile(String inoutFileName, String[] obscene) throws CensorException {
         try(RandomAccessFile raf = new RandomAccessFile(inoutFileName, "rw")
         ){
             String str;
@@ -28,9 +34,11 @@ public class Censor {
             raf.writeBytes(out.toString().trim());
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new CensorException(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CensorException(e.getMessage());
+        } catch (NullPointerException e){
+            throw new CensorException(e.getMessage());
         }
     }
 }
