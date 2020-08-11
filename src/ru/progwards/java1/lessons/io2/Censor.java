@@ -9,7 +9,7 @@ public class Censor {
     static class CensorException extends Exception{
         public CensorException(String msg) {
             super(msg);
-        };
+        }
     }
 
     public static void censorFile(String inoutFileName, String[] obscene) throws CensorException {
