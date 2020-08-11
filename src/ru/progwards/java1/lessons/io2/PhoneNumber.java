@@ -10,14 +10,10 @@ public class PhoneNumber {
             }
         }
         int len = sb.length();
-        if (len == 10){
-            sb.insert(0,'+');
-            sb.insert(1,'7');
-            sb.insert(2,'(');
-            sb.insert(6,')');
-            sb.insert(10,'-');
-        } else if (len == 11){
-            sb.deleteCharAt(0);
+        if (len == 11 || len == 10){
+            if (len == 11){
+                sb.deleteCharAt(0);
+            }
             sb.insert(0,'+');
             sb.insert(1,'7');
             sb.insert(2,'(');
