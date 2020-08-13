@@ -6,6 +6,6 @@ public class Main {
 
         System.out.println(Creator.fillEven(6));
         System.out.println(Creator.fillOdd(6));
-        System.out.println(Creator.fill3(4));
+        System.out.println(Creator.fill3(3));
     }
 }

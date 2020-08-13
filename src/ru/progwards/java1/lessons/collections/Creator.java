@@ -26,7 +26,7 @@ public class Creator {
 
     public static Collection<Integer> fill3(int n){
         Collection<Integer> ci = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n*3; i += 3) {
             ci.add(i);
             ci.add(i*i);
             ci.add(i*i*i);
