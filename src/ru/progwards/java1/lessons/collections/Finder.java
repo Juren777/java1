@@ -47,4 +47,36 @@ public class Finder {
         return ci;
     }
 
+    public static boolean findSequence(Collection<Integer> numbers){
+        boolean ret = true;
+        for (int i = 1; i <= numbers.size(); i++) {
+            if (!numbers.contains(i)){
+                ret = false;
+            }
+        }
+        return ret;
+    }
+
+    public static String findSimilar(Collection<String> names){
+
+        String ret = "";
+        List<String> cs1 = new ArrayList<>(names);
+        List<String> cs2 = new ArrayList<>(names);
+        int count1 = 0;
+        int count2 = 0;
+
+        for (int i = 0; i < cs1.size(); i++) {
+            for (int j = 0; j < cs2.size(); j++) {
+                if (cs1.get(i).equals(cs2.get(j))){
+                    count2++;
+                }
+                if (count2 > count1){
+                    ret = cs1.get(i) + ":" + count2;
+                    count1 = count2;
+                }
+            }
+            count2 = 0;
+        }
+        return ret;
+    }
 }
