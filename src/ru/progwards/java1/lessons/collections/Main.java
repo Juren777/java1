@@ -34,33 +34,18 @@ public class Main {
 
         Collection<String> sc = new ArrayList<>();
 
-        sc.add("Вася");
-        sc.add("Петя");
-        sc.add("Бонифаций");
-        sc.add("Вася");
-        sc.add("Вася");
-        sc.add("Коля");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Петя");
-        sc.add("Петя");
-        sc.add("Петя");
-        sc.add("Петя");
-        sc.add("Вася");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Бонифаций");
-        sc.add("Боря");
+        sc.add("Александр");
+        sc.add("Дмитрий");
+        sc.add("Александр");
+        sc.add("Григорий");
+        sc.add("Григорий");
+        sc.add("Борис");
+        sc.add("Григорий");
+        sc.add("Василий");
+        sc.add("Григорий");
+        sc.add("Григорий");
+        sc.add("Василий");
+
 
         System.out.println(Finder.findSimilar(sc));
     }
