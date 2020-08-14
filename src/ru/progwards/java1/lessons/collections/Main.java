@@ -36,12 +36,30 @@ public class Main {
 
         sc.add("Вася");
         sc.add("Петя");
-        sc.add("Коля");
-        sc.add("Петя");
+        sc.add("Бонифаций");
+        sc.add("Вася");
+        sc.add("Вася");
         sc.add("Коля");
         sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Петя");
+        sc.add("Петя");
+        sc.add("Петя");
         sc.add("Петя");
         sc.add("Вася");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
+        sc.add("Бонифаций");
         sc.add("Боря");
 
         System.out.println(Finder.findSimilar(sc));
