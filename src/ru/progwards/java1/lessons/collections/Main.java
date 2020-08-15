@@ -26,7 +26,11 @@ public class Main {
 
         Integer[] arr = {1,8,5,3,2,4,5,8,6};
         ArrayIterator<Integer> ai = new ArrayIterator<>(arr);
-        System.out.println();
+
+        while(ai.hasNext()){
+            System.out.println(ai.next());
+        }
+
 
         //Finder.findMinSumPair(li);sout
 
