@@ -7,20 +7,39 @@ public class MatrixIterator<T> implements Iterator<T> {
     private T[] array;
 
     private int size;
-    private int index = 0;
 
-    MatrixIterator(T[] array) {
-        this.array = array;
-        this.size = array.length;
+
+
+    private int i = 0;
+
+    MatrixIterator(T[][] array) {
+
+        for (T[] i: array
+             ) {
+            this.size += i.length;
+        }
+
+        this.array = (T[]) new Object[size];
+
+        int s = 0;
+        for (T[] i: array
+        ) {
+            for (T j: i
+                 ) {
+                this.array[s] = j;
+                s++;
+            }
+        }
+
     }
 
     @Override
     public boolean hasNext() {
-        return false;
+        return i < size;
     }
 
     @Override
     public T next() {
-        return null;
+        return array[i++];
     }
 }

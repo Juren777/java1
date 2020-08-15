@@ -24,11 +24,20 @@ public class Main {
         li.add(6);  // 6
         li.add(7); // 7
 
-        Integer[] arr = {1,8,5,3,2,4,5,8,6};
-        ArrayIterator<Integer> ai = new ArrayIterator<>(arr);
+        Integer[] arr1 = {1, 8, 5, 3, 2, 4, 5, 8, 6};
+        Integer[] arr2 = {8, 7, 6, 5, 4, 3, 2, 1, 0};
+        Integer[] arr3 = {1, 8, 5, 3, 2, 4, 5, 8, 6};
+        Integer[] arr4 = {8, 7, 6, 5, 4, 3, 2, 1, 0};
+        Integer[] arr5 = {1, 8, 5, 3, 2, 4, 5, 8, 6};
 
-        while(ai.hasNext()){
-            System.out.println(ai.next());
+        Integer[][] arr = {arr1, arr2, arr3, arr4, arr5};
+
+        MatrixIterator ma = new MatrixIterator(arr);
+
+        ArrayIterator<Integer> ai = new ArrayIterator<>(arr1);
+
+        while (ma.hasNext()) {
+            System.out.println(ma.next());
         }
 
 
