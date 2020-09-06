@@ -17,6 +17,7 @@ public class LettersInFile {
                 return o1.compareTo(o2);
             }
         });
+        StringBuilder sb = new StringBuilder();
         SortedSet<Character> subset = null;
         try(FileReader fileReader = new FileReader(fileName);
             Scanner scanner = new Scanner(fileReader)
@@ -30,10 +31,14 @@ public class LettersInFile {
                 }
             }
             subset = treeSet.subSet('A', 'я');
+            for (char c: subset
+                 ) {
+                sb.append(c);
+            }
         }catch (IOException e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return subset.toString();
+        return sb.toString();
     }
 
     public static void main(String[] args) {
