@@ -11,7 +11,6 @@ public class ArraySort {
                     a[j] = c;
                 }
             }
-
         }
     }
 }
