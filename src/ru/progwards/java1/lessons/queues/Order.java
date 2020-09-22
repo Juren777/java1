@@ -1,7 +1,5 @@
 package ru.progwards.java1.lessons.queues;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Order implements Comparable<Order>{
 
     private double sum; // сумма заказа
