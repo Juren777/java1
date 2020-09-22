@@ -24,7 +24,7 @@ public class Order implements Comparable<Order>{
     }
 
     @Override
-    public int compareTo(@NotNull Order order){
+    public int compareTo(Order order){
         return Double.compare(num, order.num);
     }
 
