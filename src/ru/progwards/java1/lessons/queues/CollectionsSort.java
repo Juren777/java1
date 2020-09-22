@@ -108,7 +108,7 @@ public class CollectionsSort {
         Collections.addAll(data, 43,27,89,47,22,44,20,41);
 //
         System.out.println(data);
-        mySort(data);
+//        mySort(data);
         System.out.println(data);
 //        minSort(data);
 //        collSort(data);
