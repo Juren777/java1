@@ -1,5 +1,7 @@
 package ru.progwards.java1.lessons.queues;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public class CollectionsSort {
@@ -34,18 +36,66 @@ public class CollectionsSort {
 
     public static Collection<String> compareSort(){
 
+        // return collection
+        Collection<String> cs = new ArrayDeque<>();
 
-        return null;
+        class MethodSort implements Comparable<MethodSort>{
+            String method;
+            Long time;
+
+            MethodSort(String method, Long time) {
+                this.method = method;
+                this.time = time;
+            }
+
+            @Override
+            public int compareTo(@NotNull MethodSort o) {
+                return Long.compare(time, o.time);
+            }
+
+            @Override
+            public String toString() {
+                return method;
+            }
+        }
+
+        PriorityQueue<MethodSort> priorityQueue = new PriorityQueue<>();
+
+        // data for sort
+        List<Integer> data = new ArrayList<>();
+        for (int i = 0; i < 10_000; i++) {
+            data.add(i);
+        }
+
+        Collections.shuffle(data);
+        long start = System.currentTimeMillis();
+        mySort(data);
+        priorityQueue.offer(new MethodSort("mySort", System.currentTimeMillis() - start));
+
+        Collections.shuffle(data);
+        start = System.currentTimeMillis();
+        collSort(data);
+        priorityQueue.offer(new MethodSort("collSort", System.currentTimeMillis() - start));
+
+        Collections.shuffle(data);
+        start = System.currentTimeMillis();
+        minSort(data);
+        priorityQueue.offer(new MethodSort("minSort", System.currentTimeMillis() - start));
+
+        while(!priorityQueue.isEmpty()){
+            cs.add(priorityQueue.poll().toString());
+        }
+        return cs;
     }
 
     public static void main(String[] args) {
-        Collection<Integer> data = new ArrayList<>();
-        Collections.addAll(data, 1, 8, 6, 4, 9, 2, 5, 3, 7, 4, 6, 5, 7);
-
-        System.out.println(data);
+//        Collection<Integer> data = new ArrayList<>();
+//        Collections.addAll(data, 1, 8, 6, 4, 9, 2, 5, 3, 7, 4, 6, 5, 7);
+//
+//        System.out.println(data);
 //        mySort(data);
 //        minSort(data);
-        collSort(data);
-        System.out.println(data);
+//        collSort(data);
+        System.out.println(compareSort());
     }
 }
