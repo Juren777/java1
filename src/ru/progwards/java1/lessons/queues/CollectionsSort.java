@@ -1,7 +1,5 @@
 package ru.progwards.java1.lessons.queues;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.*;
 
 public class CollectionsSort {
@@ -49,7 +47,7 @@ public class CollectionsSort {
             }
 
             @Override
-            public int compareTo(@NotNull MethodSort o) {
+            public int compareTo(MethodSort o) {
                 return Long.compare(time, o.time);
             }
 
