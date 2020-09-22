@@ -21,7 +21,7 @@ public class CollectionsSort {
 //    }
 
     public static void mySort(Collection<Integer> data) {
-        List<Integer> a = new ArrayList<>();
+        List<Integer> a = new ArrayList<>(data);
         for (int i = 0; i < a.size(); i++) {
             for (int j = i + 1; j < a.size(); j++) {
                 int c;
@@ -104,11 +104,12 @@ public class CollectionsSort {
     }
 
     public static void main(String[] args) {
-//        Collection<Integer> data = new ArrayList<>();
-//        Collections.addAll(data, 1, 8, 6, 4, 9, 2, 5, 3, 7, 4, 6, 5, 7);
+        Collection<Integer> data = new ArrayList<>();
+        Collections.addAll(data, 43,27,89,47,22,44,20,41);
 //
-//        System.out.println(data);
-//        mySort(data);
+        System.out.println(data);
+        mySort(data);
+        System.out.println(data);
 //        minSort(data);
 //        collSort(data);
         System.out.println(compareSort());
