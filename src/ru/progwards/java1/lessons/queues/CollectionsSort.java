@@ -21,6 +21,7 @@ public class CollectionsSort {
 //    }
 
     public static void mySort(Collection<Integer> data) {
+
         List<Integer> a = new ArrayList<>(data);
         for (int i = 0; i < a.size(); i++) {
             for (int j = i + 1; j < a.size(); j++) {
@@ -81,9 +82,13 @@ public class CollectionsSort {
         for (int i = 0; i < 10_000; i++) {
             data.add(i);
         }
-
         Collections.shuffle(data);
         long start = System.currentTimeMillis();
+        minSort(data);
+        priorityQueue.offer(new MethodSort("minSort", System.currentTimeMillis() - start));
+
+        Collections.shuffle(data);
+        start = System.currentTimeMillis();
         mySort(data);
         priorityQueue.offer(new MethodSort("mySort", System.currentTimeMillis() - start));
 
@@ -91,11 +96,6 @@ public class CollectionsSort {
         start = System.currentTimeMillis();
         collSort(data);
         priorityQueue.offer(new MethodSort("collSort", System.currentTimeMillis() - start));
-
-        Collections.shuffle(data);
-        start = System.currentTimeMillis();
-        minSort(data);
-        priorityQueue.offer(new MethodSort("minSort", System.currentTimeMillis() - start));
 
         while(!priorityQueue.isEmpty()){
             cs.add(priorityQueue.poll().toString());
