@@ -21,7 +21,6 @@ public class CollectionsSort {
 //    }
 
     public static void mySort(Collection<Integer> data) {
-
         List<Integer> a = new ArrayList<>(data);
         for (int i = 0; i < data.size(); i++) {
             for (int j = i + 1; j < data.size(); j++) {
@@ -36,6 +35,7 @@ public class CollectionsSort {
         data.clear();
         data.addAll(a);
     }
+
     public static void minSort(Collection<Integer> data){
         Collection<Integer> newData = new ArrayList<>();
         Integer i;
@@ -66,7 +66,12 @@ public class CollectionsSort {
 
             @Override
             public int compareTo(MethodSort o) {
-                return Long.compare(time, o.time);
+                int c;
+                c = Long.compare(time, o.time);
+                if (c == 0){
+                    c = String.CASE_INSENSITIVE_ORDER.compare(method, o.method);
+                }
+                return c;
             }
 
             @Override
@@ -79,9 +84,10 @@ public class CollectionsSort {
 
         // data for sort
         List<Integer> data = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 2000; i++) {
             data.add(i);
         }
+
         Collections.shuffle(data);
         long start = System.currentTimeMillis();
         minSort(data);
