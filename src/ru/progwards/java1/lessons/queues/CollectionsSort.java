@@ -23,9 +23,9 @@ public class CollectionsSort {
     public static void mySort(Collection<Integer> data) {
 
         List<Integer> a = new ArrayList<>(data);
-        for (Integer i = 0; i < data.size(); i++) {
-            for (Integer j = i + 1; j < data.size(); j++) {
-                Integer c;
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = i + 1; j < data.size(); j++) {
+                int c;
                 if (a.get(i) > a.get(j)) {
                     c = a.get(i);
                     a.set(i, a.get(j));
@@ -35,7 +35,6 @@ public class CollectionsSort {
         }
         data.clear();
         data.addAll(a);
-
     }
     public static void minSort(Collection<Integer> data){
         Collection<Integer> newData = new ArrayList<>();
@@ -80,7 +79,7 @@ public class CollectionsSort {
 
         // data for sort
         List<Integer> data = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 100; i++) {
             data.add(i);
         }
         Collections.shuffle(data);
