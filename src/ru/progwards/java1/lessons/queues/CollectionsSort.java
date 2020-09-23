@@ -110,14 +110,6 @@ public class CollectionsSort {
     }
 
     public static void main(String[] args) {
-//        Collection<Integer> data = new ArrayList<>();
-//        Collections.addAll(data, 43,27,89,47,22,44,20,41);
-//
-//        System.out.println(data);
-//        mySort(data);
-//        System.out.println(data);
-//        minSort(data);
-//        collSort(data);
         System.out.println(compareSort());
     }
 }
