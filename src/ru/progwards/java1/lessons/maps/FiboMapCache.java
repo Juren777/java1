@@ -64,7 +64,5 @@ public class FiboMapCache {
         }
         System.out.println("fiboNumber cacheOn=false время выполнения " + (System.currentTimeMillis() - start));
     }
-    public static void main(String[] args) {
-        test();
-    }
+
 }
