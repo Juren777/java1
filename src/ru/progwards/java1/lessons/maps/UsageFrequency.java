@@ -23,8 +23,8 @@ public class UsageFrequency {
         setFilename(file.getName());
         try(Scanner scanner = new Scanner(file);
             FileWriter fr = new FileWriter(file.getName())){
-            while(scanner.hasNext()){
-                fr.write(scanner.next());
+            while(scanner.hasNextLine()){
+                fr.write(scanner.nextLine() + '\n');
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
