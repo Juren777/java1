@@ -1,9 +1,6 @@
 package ru.progwards.java1.lessons.maps;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -59,9 +56,57 @@ public class SalesInfo {
         return count;
     }
 
+    private String getString(String str, int column){
+        String ret = null;
+        try(Scanner sc = new Scanner(str).useDelimiter("\\s*,\\s*")){
+            int i = 0;
+            while (sc.hasNext()){
+                if (i == column){
+                    ret = sc.next();
+                }
+                sc.next();
+                i++;
+            }
+        }
+        return ret;
+    }
+    private Double getDouble(String str){
+        Double ret = null;
+        try(Scanner sc = new Scanner(str).useDelimiter("\\s*,\\s*")){
+            int i = 0;
+            while (sc.hasNext()){
+                if (i == 3){
+                    ret = Double.parseDouble(sc.next());
+                    return ret;
+                }
+                sc.next();
+                i++;
+            }
+        }
+        return ret;
+    }
     public Map<String, Double> getGoods(){
         Map<String, Double> map = new TreeMap<>();
-
+        String str = null;
+        String key = null;
+        Double value;
+        try(FileReader fr = new FileReader("ex.csv");
+        Scanner scanner = new Scanner(fr)){
+            while (scanner.hasNextLine()) {
+                str = scanner.nextLine();
+                key = getString(str, 1);
+                value = getDouble(str);
+                if (map.containsKey(key)){
+                    map.put(key, map.get(key) + value);
+                } else {
+                    map.put(key, value);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return map;
     }
 }
