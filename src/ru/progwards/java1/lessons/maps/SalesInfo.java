@@ -47,6 +47,7 @@ public class SalesInfo {
                 line = sc.nextLine();
                 if (checkFields(line)){
                     fr.write(line + "\n");
+                    count++;
                 }
             }
         } catch (FileNotFoundException e){
