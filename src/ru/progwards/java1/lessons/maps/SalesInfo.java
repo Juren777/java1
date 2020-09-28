@@ -1,6 +1,7 @@
 package ru.progwards.java1.lessons.maps;
 
 import java.io.*;
+import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -85,10 +86,25 @@ public class SalesInfo {
         }
         return ret;
     }
+    private Integer getInteger(String str){
+        Integer ret = null;
+        try(Scanner sc = new Scanner(str).useDelimiter("\\s*,\\s*")){
+            int i = 0;
+            while (sc.hasNext()){
+                if (i == 2){
+                    ret = Integer.parseInt(sc.next());
+                    return ret;
+                }
+                sc.next();
+                i++;
+            }
+        }
+        return ret;
+    }
     public Map<String, Double> getGoods(){
         Map<String, Double> map = new TreeMap<>();
-        String str = null;
-        String key = null;
+        String str;
+        String key;
         Double value;
         try(FileReader fr = new FileReader("ex.csv");
         Scanner scanner = new Scanner(fr)){
@@ -100,6 +116,34 @@ public class SalesInfo {
                     map.put(key, map.get(key) + value);
                 } else {
                     map.put(key, value);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public Map<String, AbstractMap.SimpleEntry<Double, Integer>> getCustomers(){
+        Map<String, AbstractMap.SimpleEntry<Double, Integer>> map = new TreeMap<>();
+        String str;
+        String key;
+        Double value;
+        Integer count;
+
+        try(FileReader fr = new FileReader("ex.csv");
+            Scanner scanner = new Scanner(fr)){
+            while (scanner.hasNextLine()) {
+                str = scanner.nextLine();
+                key = getString(str, 0);
+                value = getDouble(str);
+                count = getInteger(str);
+                if (map.containsKey(key)){
+                    map.put(key, new AbstractMap.SimpleEntry<>(map.get(key).getKey() + value, map.get(key).getValue() + count));
+                } else {
+                    map.put(key, new AbstractMap.SimpleEntry<>(value, count));
                 }
             }
         } catch (FileNotFoundException e) {
