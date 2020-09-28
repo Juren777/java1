@@ -8,6 +8,8 @@ import java.util.TreeMap;
 
 public class SalesInfo {
 
+    private String filename;
+
     private boolean checkFields(String line){
         int count = 0;
         String field;
@@ -40,6 +42,7 @@ public class SalesInfo {
         int count = 0;
         File file = new File(fileName);
         String line;
+        this.filename = file.getName();
         try(Scanner sc = new Scanner(file);
             FileWriter fr = new FileWriter(file.getName())
         ){
@@ -107,7 +110,7 @@ public class SalesInfo {
         String str;
         String key;
         Double value;
-        try(FileReader fr = new FileReader("ex.csv");
+        try(FileReader fr = new FileReader(this.filename);
         Scanner scanner = new Scanner(fr)){
             while (scanner.hasNextLine()) {
                 str = scanner.nextLine();
@@ -134,7 +137,7 @@ public class SalesInfo {
         Double value;
         Integer count;
 
-        try(FileReader fr = new FileReader("ex.csv");
+        try(FileReader fr = new FileReader(this.filename);
             Scanner scanner = new Scanner(fr)){
             while (scanner.hasNextLine()) {
                 str = scanner.nextLine();
