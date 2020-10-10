@@ -7,12 +7,24 @@ import java.util.TreeMap;
 
 public class UsageFrequency {
 
+
+    private String filename;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public void processFile(String fileName){
         File file = new File(fileName);
+        setFilename(file.getName());
         try(Scanner scanner = new Scanner(file);
             FileWriter fr = new FileWriter(file.getName())){
-            while(scanner.hasNext()){
-                fr.write(scanner.next());
+            while(scanner.hasNextLine()){
+                fr.write(scanner.nextLine() + '\n');
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
@@ -24,7 +36,7 @@ public class UsageFrequency {
     public Map<Character, Integer> getLetters(){
         Map<Character, Integer> map = new TreeMap<>();
 
-        try(FileReader fr = new FileReader("wiki.test.tokens")){
+        try(FileReader fr = new FileReader(getFilename())){
             int data;
             char ch;
             while ((data = fr.read()) != -1){
@@ -51,7 +63,7 @@ public class UsageFrequency {
         char ch;
         StringBuilder sb = new StringBuilder();
         String str;
-        try(FileReader fr = new FileReader("wiki.test.tokens")){
+        try(FileReader fr = new FileReader(getFilename())){
             while ((data = fr.read()) != -1){
                 if (Character.isLetter(data)||Character.isDigit(data)){
                     ch = (char) data;
