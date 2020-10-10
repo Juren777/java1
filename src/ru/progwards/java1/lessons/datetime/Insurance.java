@@ -39,6 +39,16 @@ public class Insurance {
         this.start = start;
     }
 
+    // проверить действительна ли страховка на указанную дату-время. Если продолжительность
+    // не задана считать страховку бессрочной.
+    public boolean checkValid(ZonedDateTime dateTime){
+        if (duration == null){
+            return dateTime.compareTo(start) >= 0;
+        }
+        ZonedDateTime endTime =  this.start.plus(duration);
+        return start.compareTo(dateTime)*dateTime.compareTo(endTime) >= 0;
+    }
+
     // установить дату-время начала действия страховки.
     public Insurance(String strStart, FormatStyle style){
 
@@ -55,5 +65,15 @@ public class Insurance {
             ZonedDateTime zdt = ZonedDateTime.parse(strStart, dtf);
             this.start = zdt;
         }
+    }
+
+    //  "Insurance issued on " + start + validStr, где validStr = " is valid",
+    //  если страховка действительна на данный момент и " is not valid", если она недействительна.
+    @Override
+    public String toString() {
+        Instant instant = Instant.now();
+        ZonedDateTime zdt= instant.atZone(ZoneId.of("Europe/Moscow"));
+        String validStr = checkValid(zdt)?" is valid": " is not valid";
+        return "Insurance issued on " + start + validStr;
     }
 }
