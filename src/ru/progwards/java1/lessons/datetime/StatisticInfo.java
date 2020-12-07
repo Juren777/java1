@@ -1,11 +1,14 @@
 package ru.progwards.java1.lessons.datetime;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
+import java.util.Objects;
+
 public class StatisticInfo {
 
     // start time
     long startTime;
-    // end time
-    long endTime;
     // - имя секции
     public String sectionName;
 
@@ -28,15 +31,21 @@ public class StatisticInfo {
         this.startTime = startTime;
     }
 
+    public String getSectionName() {
+        return sectionName;
+    }
+
     @Override
     public String toString() {
         return "StatisticInfo{" +
                 "startTime=" + startTime +
-                ", endTime=" + endTime +
                 ", sectionName='" + sectionName + '\'' +
                 ", fullTime=" + fullTime +
                 ", selfTime=" + selfTime +
                 ", count=" + count +
                 '}';
     }
+
+    Comparator<StatisticInfo> byName = Comparator.comparing(StatisticInfo::getSectionName);
+
 }
