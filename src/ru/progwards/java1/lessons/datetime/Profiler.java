@@ -1,13 +1,12 @@
 package ru.progwards.java1.lessons.datetime;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Profiler {
     private static List<StatisticInfo> statisticInfos = new ArrayList<>();
 
-    static Deque<String> stack = new ArrayDeque<>();
+    static Deque<StatisticInfo> stack = new ArrayDeque<>();
 
     private static int getIndex(String name) {
         for (int i = 0; i < statisticInfos.size(); i++
@@ -24,32 +23,19 @@ public class Profiler {
         StatisticInfo statisticInfo = new StatisticInfo();
         statisticInfo.startTime = System.currentTimeMillis();
         statisticInfo.sectionName = name;
-
-        int i = getIndex(name);
-
-        stack.push(name);
-        if (i == -1){
+        stack.push(statisticInfo);
+        if (getIndex(name) == -1)
             statisticInfos.add(statisticInfo);
-        }
-        else {
-            statisticInfos.get(i).startTime = statisticInfo.startTime;
-            statisticInfos.get(i).delta = 0;
-        }
-
     }
 
     //  - выйти из профилировочной секции.
     //  Замерить время выхода, вычислить промежуток времени между входом и выходом в миллисекундах.
     public static void exitSection(String name) {
 
-        stack.pop();
+        StatisticInfo statisticInfo = stack.pop(); // this stat level
+
+        long time = (int) (System.currentTimeMillis() - statisticInfo.startTime);
         int i = getIndex(name);
-        long time = (int) (System.currentTimeMillis() - statisticInfos.get(i).startTime);
-        int j = getIndex(stack.peek());
-        if (j != -1){
-            statisticInfos.get(j).delta += time;
-        }
-        statisticInfos.get(i).selfTime += time - statisticInfos.get(i).delta;
         statisticInfos.get(i).fullTime += time;
         statisticInfos.get(i).count++;
     }
@@ -64,12 +50,7 @@ public class Profiler {
     public static void main(String[] args) {
 
         enterSection("1");
-        try {
-            TimeUnit.MILLISECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             enterSection("2");
 
             enterSection("3");
@@ -95,6 +76,7 @@ public class Profiler {
         }
         exitSection("4");
         exitSection("1");
+
 
         for (StatisticInfo si : getStatisticInfo()
         ) {
