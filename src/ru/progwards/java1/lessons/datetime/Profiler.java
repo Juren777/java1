@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 public class Profiler {
     private static List<StatisticInfo> statisticInfos = new ArrayList<>();
 
-    static Deque<StatisticInfo> stack = new ArrayDeque<>();
+    static Deque<String> stack = new ArrayDeque<>();
 
     private static int getIndex(String name) {
         for (int i = 0; i < statisticInfos.size(); i++
@@ -23,19 +23,30 @@ public class Profiler {
         StatisticInfo statisticInfo = new StatisticInfo();
         statisticInfo.startTime = System.currentTimeMillis();
         statisticInfo.sectionName = name;
-        stack.push(statisticInfo);
-        if (getIndex(name) == -1)
+        stack.push(name);
+        int i = getIndex(name);
+        if (i == -1){
             statisticInfos.add(statisticInfo);
+        } else {
+            statisticInfos.get(i).startTime = System.currentTimeMillis();
+            statisticInfos.get(i).delta = 0;
+        }
+
     }
 
     //  - выйти из профилировочной секции.
     //  Замерить время выхода, вычислить промежуток времени между входом и выходом в миллисекундах.
     public static void exitSection(String name) {
 
-        StatisticInfo statisticInfo = stack.pop(); // this stat level
+        stack.pop(); // this stat level
 
-        long time = (int) (System.currentTimeMillis() - statisticInfo.startTime);
         int i = getIndex(name);
+        long time = (int) (System.currentTimeMillis() - statisticInfos.get(i).startTime);
+        int j = getIndex(stack.peek());
+        if (j != -1){
+            statisticInfos.get(j).delta += time;
+        }
+        statisticInfos.get(i).selfTime += time - statisticInfos.get(i).delta;
         statisticInfos.get(i).fullTime += time;
         statisticInfos.get(i).count++;
     }
@@ -50,7 +61,12 @@ public class Profiler {
     public static void main(String[] args) {
 
         enterSection("1");
-        for (int i = 0; i < 1; i++) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < 10; i++) {
             enterSection("2");
 
             enterSection("3");
