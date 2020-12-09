@@ -1,9 +1,5 @@
 package ru.progwards.java1.lessons.datetime;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Comparator;
-import java.util.Objects;
 
 public class StatisticInfo {
 
