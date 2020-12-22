@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class FindDuplicates {
     // В заданном каталоге и его подкаталогах найти файлы,
@@ -86,15 +84,32 @@ public class FindDuplicates {
                 return FileVisitResult.CONTINUE;
             }
         });
-        for (DupFile df: dupFiles
-             ) {
-            if (df.fileCount > 1){
-                stringList.add(df.fileName);
-                stringList.add(df.filePath.toString());
-                lists.add(new ArrayList<>(stringList));
-                stringList.clear();
+        Collections.sort(dupFiles, new Comparator<DupFile>() {
+            @Override
+            public int compare(DupFile o1, DupFile o2) {
+                return o1.fileName.compareTo(o2.fileName);
+            }
+        });
+        String fileName = "";
+
+        for (DupFile df : dupFiles
+        ) {
+            if (df.fileCount > 1) {
+                if (stringList.size() == 0) {
+                    fileName = df.fileName;
+                    stringList.add(df.filePath.toString());
+                } else if (df.fileName.equals(fileName)){
+                    stringList.add(df.filePath.toString());
+                } else {
+                    lists.add(new ArrayList<>(stringList));
+                    stringList.clear();
+                    fileName = df.fileName;
+                    stringList.add(df.filePath.toString());
+                }
             }
         }
+        lists.add(new ArrayList<>(stringList));
+        stringList.clear();
         return lists;
     }
 
