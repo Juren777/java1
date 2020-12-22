@@ -33,7 +33,7 @@ public class FilesSelect {
     public void selectFiles(String inFolder, String outFolder, List<String> keys){
 
         Path startPath = Paths.get(inFolder);
-        PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.sql");
+        PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.txt");
 
         try {
             Files.walkFileTree(startPath, new SimpleFileVisitor<>() {
