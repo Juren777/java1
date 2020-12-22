@@ -53,48 +53,39 @@ public class FindDuplicates {
         }
     }
 
-    public List<List<String>> findDuplicates(String startPath){
+    public List<List<String>> findDuplicates(String startPath) throws IOException {
 
         List<String> stringList = new ArrayList<>();
         List<List<String>> lists = new ArrayList<>();
         List<DupFile> dupFiles = new ArrayList<>();
         Path path = Paths.get(startPath);
 
-        try {
-            Files.walkFileTree(path, new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs){
-                    DupFile dupFile = null;
-                    try {
-                        dupFile = new DupFile(path.getFileName().toString()
-                                , (FileTime) Files.getAttribute(path, "lastModifiedTime")
-                                , (Long) Files.getAttribute(path, "size")
-                                , Files.readString(path)//new String(Files.readAllBytes(path))
-                                , path
-                        );
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                DupFile dupFile = new DupFile(path.getFileName().toString()
+                        , (FileTime) Files.getAttribute(path, "lastModifiedTime")
+                        , (Long) Files.getAttribute(path, "size")
+                        , Files.readString(path)//new String(Files.readAllBytes(path))
+                        , path
+                );
 
-                    for (DupFile df : dupFiles
-                    ) {
-                        if (df.equals(dupFile)) {
-                            df.fileCount += 1;
-                            dupFile.fileCount = df.fileCount;
-                        }
+                for (DupFile df : dupFiles
+                ) {
+                    if (df.equals(dupFile)) {
+                        df.fileCount += 1;
+                        dupFile.fileCount = df.fileCount;
                     }
-                    dupFiles.add(dupFile);
-                    return FileVisitResult.CONTINUE;
                 }
+                dupFiles.add(dupFile);
+                return FileVisitResult.CONTINUE;
+            }
 
-                @Override
-                public FileVisitResult visitFileFailed(Path file, IOException e) {
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException e) {
+                return FileVisitResult.CONTINUE;
+            }
+        });
         for (DupFile df: dupFiles
              ) {
             if (df.fileCount > 1){
@@ -114,6 +105,5 @@ public class FindDuplicates {
         ) {
             System.out.println(ls);
         }
-
     }
 }
