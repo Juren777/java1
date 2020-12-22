@@ -30,39 +30,56 @@ public class FilesSelect {
      то скопировать его в подпапку с соответствующим именем, этого элемента keys,
      все подпапки должны находиться в outFolder.
      */
-    public void selectFiles(String inFolder, String outFolder, List<String> keys) throws IOException {
+    public void selectFiles(String inFolder, String outFolder, List<String> keys){
 
         Path startPath = Paths.get(inFolder);
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.sql");
 
-        Files.walkFileTree(startPath, new SimpleFileVisitor<>() {
+        try {
+            Files.walkFileTree(startPath, new SimpleFileVisitor<>() {
 
-            @Override
-            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-                if (pathMatcher.matches(path)) {
-                    String fileSource = Files.readString(path);
-                    for (String key: keys
-                         ) {
-                        if (checkFile(fileSource, key)) {
-                            Path outPath = Paths.get(outFolder + "/" + key );
-                            if (!Files.exists(outPath)){
-                                Files.createDirectory(outPath);
-                            }
-                            Path outFile = Paths.get(outPath + "/" + path.getFileName());
-                            if (!Files.exists(outFile)){
-                                Files.copy(path, outFile);
+                @Override
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+                    if (pathMatcher.matches(path)) {
+                        String fileSource = null;
+                        try {
+                            fileSource = Files.readString(path);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                        for (String key: keys
+                             ) {
+                            if (checkFile(fileSource, key)) {
+                                Path outPath = Paths.get(outFolder + "/" + key );
+                                if (!Files.exists(outPath)){
+                                    try {
+                                        Files.createDirectory(outPath);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                }
+                                Path outFile = Paths.get(outPath + "/" + path.getFileName());
+                                if (!Files.exists(outFile)){
+                                    try {
+                                        Files.copy(path, outFile);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                }
                             }
                         }
                     }
+                    return FileVisitResult.CONTINUE;
                 }
-                return FileVisitResult.CONTINUE;
-            }
 
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException e) {
-                return FileVisitResult.CONTINUE;
-            }
-        });
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException e) {
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
 
     }
 
