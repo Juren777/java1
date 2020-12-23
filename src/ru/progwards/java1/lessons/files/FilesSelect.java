@@ -13,13 +13,9 @@ public class FilesSelect {
         StringBuilder sb = new StringBuilder();
         for (char ch : fileSource.toCharArray()
         ) {
-            if (Character.isLetter(ch) || Character.isDigit(ch)) {
-                sb.append(ch);
-            } else {
-                if (sb.toString().equals(key)) {
-                    return true;
-                }
-                sb = new StringBuilder();
+            sb.append(ch);
+            if (sb.toString().equals(key)) {
+                return true;
             }
         }
         return false;
@@ -30,7 +26,7 @@ public class FilesSelect {
      то скопировать его в подпапку с соответствующим именем, этого элемента keys,
      все подпапки должны находиться в outFolder.
      */
-    public void selectFiles(String inFolder, String outFolder, List<String> keys){
+    public void selectFiles(String inFolder, String outFolder, List<String> keys) {
 
         Path startPath = Paths.get(inFolder);
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/*.txt");
@@ -47,12 +43,12 @@ public class FilesSelect {
                         } catch (IOException ioException) {
                             ioException.printStackTrace();
                         }
-                        for (String key: keys
-                             ) {
+                        for (String key : keys
+                        ) {
                             if (checkFile(fileSource, key)) {
-                                Path outPath = Paths.get(outFolder + "/" + key );
+                                Path outPath = Paths.get(outFolder + "/" + key);
                                 // check directory
-                                if (!Files.exists(outPath)){
+                                if (!Files.exists(outPath)) {
                                     try {
                                         Files.createDirectory(outPath);
                                     } catch (IOException ioException) {
@@ -61,7 +57,7 @@ public class FilesSelect {
                                 }
                                 Path outFile = Paths.get(outPath + "/" + path.getFileName());
                                 // check file
-                                if (!Files.exists(outFile)){
+                                if (!Files.exists(outFile)) {
                                     try {
                                         Files.copy(path, outFile);
                                     } catch (IOException ioException) {
