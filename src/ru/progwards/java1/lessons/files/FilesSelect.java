@@ -13,7 +13,7 @@ public class FilesSelect {
         StringBuilder sb = new StringBuilder();
         for (char ch : fileSource.toCharArray()
         ) {
-            if (Character.isLetter(ch)) {
+            if (Character.isLetter(ch) || Character.isDigit(ch)) {
                 sb.append(ch);
             } else {
                 if (sb.toString().equals(key)) {
@@ -51,6 +51,7 @@ public class FilesSelect {
                              ) {
                             if (checkFile(fileSource, key)) {
                                 Path outPath = Paths.get(outFolder + "/" + key );
+                                // check directory
                                 if (!Files.exists(outPath)){
                                     try {
                                         Files.createDirectory(outPath);
@@ -59,6 +60,7 @@ public class FilesSelect {
                                     }
                                 }
                                 Path outFile = Paths.get(outPath + "/" + path.getFileName());
+                                // check file
                                 if (!Files.exists(outFile)){
                                     try {
                                         Files.copy(path, outFile);
