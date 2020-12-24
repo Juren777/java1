@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class OrderProcessor {
@@ -163,12 +164,53 @@ public class OrderProcessor {
         }
         return map;
     }
+    /* - выдать информацию по объему продаж по товарам (отсортированную по ключам):
+       String - goodsName, double - сумма стоимости всех проданных товаров этого наименования
+    */
+    public Map<String, Double> statisticsByGoods() {
+        Map<String, Double> map = new TreeMap<>();
+        List<OrderItem> items = new ArrayList<>();
+        for (Order order: loadList
+        ) {
+            for (OrderItem item: order.items
+                 ) {
+                items.add(item);
+            }
+        }
+        for (OrderItem orderItem: items
+             ) {
+            if (map.get(orderItem.googsName) == null){
+                map.put(orderItem.googsName, orderItem.count*orderItem.price);
+            } else {
+                map.replace(orderItem.googsName, map.get(orderItem.googsName) + orderItem.count*orderItem.price);
+            }
+        }
+        return map;
+    }
+    /* - выдать информацию по объему продаж по дням (отсортированную по ключам):
+       LocalDate - конкретный день, double - сумма стоимости всех проданных товаров в этот день
+    */
+    public Map<LocalDate, Double> statisticsByDay(){
+        Map<LocalDate, Double> map = new TreeMap<>();
+        LocalDate localDate;
+        for (Order order: loadList
+        ) {
+            localDate = LocalDate.from(order.datetime);
+            if (map.get(localDate) == null){
+                map.put(localDate, order.sum);
+            } else {
+                map.put(localDate, map.get(localDate) + order.sum);
+            }
+        }
+        return map;
+    }
+
 
     public static void main(String[] args) throws IOException {
 
         Files.setAttribute(Paths.get("D:\\H17\\processor\\S03-P01X05-0001.csv")
                 , "lastModifiedTime"
-                , FileTime.from(Instant.parse("2020-12-21T19:34:50.63Z"))
+                , FileTime.from(Instant.parse("2020-12-23T19:34:50.63Z"))
         );
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
@@ -181,5 +223,7 @@ public class OrderProcessor {
             System.out.println(o);
         }
         System.out.println(processor.statisticsByShop());
+        System.out.println(processor.statisticsByGoods());
+        System.out.println(processor.statisticsByDay());
     }
 }
