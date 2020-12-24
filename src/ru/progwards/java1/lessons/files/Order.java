@@ -1,5 +1,7 @@
 package ru.progwards.java1.lessons.files;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
     999999 - обязательные 6 символов orderId - номер заказа
     ZZZZ - обязательные 4 символа customerId - идентификатор покупателя
 */
-public class Order {
+public class Order implements Comparable<Order>{
 
     public String shopId; // идентификатор магазина
 
@@ -34,5 +36,10 @@ public class Order {
                 ", items=" + items +
                 ", sum=" + sum +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return this.datetime.compareTo(o.datetime);
     }
 }
