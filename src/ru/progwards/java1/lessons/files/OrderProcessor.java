@@ -117,7 +117,7 @@ public class OrderProcessor {
             @Override
             public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
                 if (pathMatcher.matches(path)) {
-                    System.out.println(path);
+                    //System.out.println(path);
                     addOrder(path, start, finish, shopId);
                 } else {
                     errCount++;
@@ -161,8 +161,8 @@ public class OrderProcessor {
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
         System.out.println(processor.loadOrders(null //LocalDate.of(2020, 12, 23)
-                , LocalDate.of(2020, 12, 23)
-                , null)
+                , LocalDate.of(2020, 12, 24)
+                , "S02")
         );
         for (Order o : processor.process(null)
         ) {
