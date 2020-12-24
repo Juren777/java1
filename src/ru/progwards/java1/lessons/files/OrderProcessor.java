@@ -78,10 +78,15 @@ public class OrderProcessor {
         return sum;
     }
 
-    public void addOrder(Path path, LocalDate start, LocalDate finish, String shopId) throws IOException {
+    public void addOrder(Path path, LocalDate start, LocalDate finish, String shopId) {
 
         // check shopId & time
-        FileTime fileTime = (FileTime) Files.getAttribute(path, "lastModifiedTime");
+        FileTime fileTime = null;
+        try {
+            fileTime = (FileTime) Files.getAttribute(path, "lastModifiedTime");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
         LocalDateTime fileDateTime = LocalDateTime.ofInstant(fileTime.toInstant(), ZoneId.systemDefault());
 
         String fileShopId = path.getFileName().toString().substring(0, 3);
@@ -96,7 +101,12 @@ public class OrderProcessor {
             // datetime
             order.datetime = fileDateTime;
             // items
-            List<String> allLines = Files.readAllLines(path);
+            List<String> allLines = null;
+            try {
+                allLines = Files.readAllLines(path);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
             for (String str : allLines
             ) {
                 orderItemList.add(getItem(str));
@@ -108,27 +118,31 @@ public class OrderProcessor {
     }
 
     // загружает заказы за указанный диапазон дат, с start до finish, обе даты включительно
-    public int loadOrders(LocalDate start, LocalDate finish, String shopId) throws IOException {
+    public int loadOrders(LocalDate start, LocalDate finish, String shopId) {
         PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/???-??????-????.csv");
         // Метод возвращает количество файлов с ошибками.
 
-        Files.walkFileTree(path, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-                if (pathMatcher.matches(path)) {
-                    //System.out.println(path);
-                    addOrder(path, start, finish, shopId);
-                } else {
-                    errCount++;
+        try {
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs)  {
+                    if (pathMatcher.matches(path)) {
+                        //System.out.println(path);
+                        addOrder(path, start, finish, shopId);
+                    } else {
+                        errCount++;
+                    }
+                    return FileVisitResult.CONTINUE;
                 }
-                return FileVisitResult.CONTINUE;
-            }
 
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException e) {
-                return FileVisitResult.CONTINUE;
-            }
-        });
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException e) {
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
         Collections.sort(loadList);
         return errCount;
     }
