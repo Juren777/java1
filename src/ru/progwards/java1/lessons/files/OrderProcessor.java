@@ -8,9 +8,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class OrderProcessor {
 
@@ -150,7 +148,21 @@ public class OrderProcessor {
             return orders;
         }
     }
-
+    /* - выдать информацию по объему продаж по магазинам (отсортированную по ключам):
+       String - shopId, double - сумма стоимости всех проданных товаров в этом магазине
+    */
+    public Map<String, Double> statisticsByShop(){
+        Map<String,Double> map = new TreeMap<>();
+        for (Order order: loadList
+             ) {
+            if (map.get(order.shopId) == null){
+                map.put(order.shopId, order.sum);
+            } else {
+                map.replace(order.shopId, map.get(order.shopId) + order.sum);
+            }
+        }
+        return map;
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -161,12 +173,13 @@ public class OrderProcessor {
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
         System.out.println(processor.loadOrders(null //LocalDate.of(2020, 12, 23)
-                , LocalDate.of(2020, 12, 24)
-                , "S02")
+                , LocalDate.of(2020, 12, 25)
+                , null)
         );
         for (Order o : processor.process(null)
         ) {
             System.out.println(o);
         }
+        System.out.println(processor.statisticsByShop());
     }
 }
