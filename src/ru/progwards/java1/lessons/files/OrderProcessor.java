@@ -112,6 +112,7 @@ public class OrderProcessor {
                 if (getItem(str) != null)
                     orderItemList.add(getItem(str));
             }
+            Collections.sort(orderItemList);
             order.items = orderItemList;
             order.sum = getSum(orderItemList);
             if (order.items.size() != 0)
