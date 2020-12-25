@@ -64,7 +64,6 @@ public class OrderProcessor {
         if (orderItem.count != 0)
             return orderItem;
         else
-            errCount++;
             return null;
     }
 
@@ -241,7 +240,7 @@ public class OrderProcessor {
 //        );
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
-        System.out.println(processor.loadOrders(LocalDate.of(2020, Month.JANUARY, 11), null, null)
+        System.out.println(processor.loadOrders(null, null, null)
         );
         for (Order o : processor.process(null)
         ) {
