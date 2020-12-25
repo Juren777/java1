@@ -81,44 +81,41 @@ public class OrderProcessor {
     public void addOrder(Path path, LocalDate start, LocalDate finish, String shopId) {
 
         // check shopId & time
-        FileTime fileTime = null;
+        LocalDateTime fileDateTime = null;
         try {
-            fileTime = (FileTime) Files.getAttribute(path, "lastModifiedTime");
+            fileDateTime = LocalDateTime.ofInstant(Files.getLastModifiedTime(path).toInstant(), ZoneId.systemDefault());
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        LocalDateTime fileDateTime = LocalDateTime.ofInstant(fileTime.toInstant(), ZoneId.systemDefault());
-
         String fileShopId = path.getFileName().toString().substring(0, 3);
 
-        if (checkOrder(start, finish, shopId, fileDateTime, fileShopId)) {
-            Order order = new Order();
-            List<OrderItem> orderItemList = new ArrayList<>();
-            // shopId, orderId, customerId
-            order.shopId = fileShopId;
-            order.orderId = path.getFileName().toString().substring(4, 10);
-            order.customerId = path.getFileName().toString().substring(11, 15);
-            // datetime
-            order.datetime = fileDateTime;
-            // items
-            List<String> allLines = null;
-            try {
-                allLines = Files.readAllLines(path);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            for (String str : allLines
-            ) {
-                if (getItem(str) != null)
-                    orderItemList.add(getItem(str));
-            }
-            Collections.sort(orderItemList);
-            order.items = orderItemList;
-            order.sum = getSum(orderItemList);
-            if (order.items.size() != 0)
-                loadList.add(order);
+        Order order = new Order();
+        List<OrderItem> orderItemList = new ArrayList<>();
+        // shopId, orderId, customerId
+        order.shopId = fileShopId;
+        order.orderId = path.getFileName().toString().substring(4, 10);
+        order.customerId = path.getFileName().toString().substring(11, 15);
+        // datetime
+        order.datetime = fileDateTime;
+        // items
+        List<String> allLines = null;
+        try {
+            allLines = Files.readAllLines(path);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
+        for (String str : allLines
+        ) {
+            if (getItem(str) != null)
+                orderItemList.add(getItem(str));
+        }
+        Collections.sort(orderItemList);
+        order.items = orderItemList;
+        order.sum = getSum(orderItemList);
+        if (order.items.size() != 0)
+            loadList.add(order);
     }
+
 
     // загружает заказы за указанный диапазон дат, с start до finish, обе даты включительно
     public int loadOrders(LocalDate start, LocalDate finish, String shopId) {
@@ -129,11 +126,20 @@ public class OrderProcessor {
             Files.walkFileTree(path, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
-                    if (pathMatcher.matches(path)) {
-                        //System.out.println(path);
-                        addOrder(path, start, finish, shopId);
-                    } else {
-                        errCount++;
+                    LocalDateTime fileDateTime = null;
+                    try {
+                        fileDateTime = LocalDateTime.ofInstant(Files.getLastModifiedTime(path).toInstant(), ZoneId.systemDefault());
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    String fileShopId = path.getFileName().toString().substring(0, 3);
+                    if (checkOrder(start, finish, shopId, fileDateTime, fileShopId)) {
+                        if (pathMatcher.matches(path)) {
+                            //System.out.println(path);
+                            addOrder(path, start, finish, shopId);
+                        } else {
+                            errCount++;
+                        }
                     }
                     return FileVisitResult.CONTINUE;
                 }
@@ -228,17 +234,15 @@ public class OrderProcessor {
 
     public static void main(String[] args) throws IOException {
 
-        // year, month, dayOfMonth, hour, minute, second 2020-01-16T17:16:16
-        LocalDateTime newLocalDateTime = LocalDateTime.of(2020, 1, 16, 17, 16, 16);
+        // year, month, dayOfMonth, hour, minute, second 2020-01-01T13:00
+        LocalDateTime newLocalDateTime = LocalDateTime.of(2020, 1, 10, 16, 15, 15);
         Instant instant = newLocalDateTime.toInstant(ZoneOffset.ofHours(3));
-        Files.setLastModifiedTime(Paths.get("D:/H17/processor/3/S02-P01X04-0002.csv")
+        Files.setLastModifiedTime(Paths.get("D:/H17/processor/2/S02-P01X03-0003.csv")
                 , FileTime.from(instant)
         );
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
-        System.out.println(processor.loadOrders(null //LocalDate.of(2020, 12, 23)
-                , null//LocalDate.of(2020, 12, 25)
-                , null)
+        System.out.println(processor.loadOrders(LocalDate.of(2020, Month.JANUARY, 1), null, null)
         );
         for (Order o : processor.process(null)
         ) {
