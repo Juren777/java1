@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -66,7 +63,10 @@ public class OrderProcessor {
 
             index++;
         }
-        return orderItem;
+        if (orderItem.count != 0)
+            return orderItem;
+        else
+            return null;
     }
 
     private double getSum(List<OrderItem> orderItemList) {
@@ -109,11 +109,13 @@ public class OrderProcessor {
             }
             for (String str : allLines
             ) {
-                orderItemList.add(getItem(str));
+                if (getItem(str) != null)
+                    orderItemList.add(getItem(str));
             }
             order.items = orderItemList;
             order.sum = getSum(orderItemList);
-            loadList.add(order);
+            if (order.items.size() != 0)
+                loadList.add(order);
         }
     }
 
@@ -125,7 +127,7 @@ public class OrderProcessor {
         try {
             Files.walkFileTree(path, new SimpleFileVisitor<>() {
                 @Override
-                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs)  {
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
                     if (pathMatcher.matches(path)) {
                         //System.out.println(path);
                         addOrder(path, start, finish, shopId);
@@ -163,14 +165,15 @@ public class OrderProcessor {
             return orders;
         }
     }
+
     /* - выдать информацию по объему продаж по магазинам (отсортированную по ключам):
        String - shopId, double - сумма стоимости всех проданных товаров в этом магазине
     */
-    public Map<String, Double> statisticsByShop(){
-        Map<String,Double> map = new TreeMap<>();
-        for (Order order: loadList
-             ) {
-            if (map.get(order.shopId) == null){
+    public Map<String, Double> statisticsByShop() {
+        Map<String, Double> map = new TreeMap<>();
+        for (Order order : loadList
+        ) {
+            if (map.get(order.shopId) == null) {
                 map.put(order.shopId, order.sum);
             } else {
                 map.replace(order.shopId, map.get(order.shopId) + order.sum);
@@ -178,39 +181,41 @@ public class OrderProcessor {
         }
         return map;
     }
+
     /* - выдать информацию по объему продаж по товарам (отсортированную по ключам):
        String - goodsName, double - сумма стоимости всех проданных товаров этого наименования
     */
     public Map<String, Double> statisticsByGoods() {
         Map<String, Double> map = new TreeMap<>();
         List<OrderItem> items = new ArrayList<>();
-        for (Order order: loadList
+        for (Order order : loadList
         ) {
-            for (OrderItem item: order.items
-                 ) {
+            for (OrderItem item : order.items
+            ) {
                 items.add(item);
             }
         }
-        for (OrderItem orderItem: items
-             ) {
-            if (map.get(orderItem.googsName) == null){
-                map.put(orderItem.googsName, orderItem.count*orderItem.price);
+        for (OrderItem orderItem : items
+        ) {
+            if (map.get(orderItem.googsName) == null) {
+                map.put(orderItem.googsName, orderItem.count * orderItem.price);
             } else {
-                map.replace(orderItem.googsName, map.get(orderItem.googsName) + orderItem.count*orderItem.price);
+                map.replace(orderItem.googsName, map.get(orderItem.googsName) + orderItem.count * orderItem.price);
             }
         }
         return map;
     }
+
     /* - выдать информацию по объему продаж по дням (отсортированную по ключам):
        LocalDate - конкретный день, double - сумма стоимости всех проданных товаров в этот день
     */
-    public Map<LocalDate, Double> statisticsByDay(){
+    public Map<LocalDate, Double> statisticsByDay() {
         Map<LocalDate, Double> map = new TreeMap<>();
         LocalDate localDate;
-        for (Order order: loadList
+        for (Order order : loadList
         ) {
             localDate = LocalDate.from(order.datetime);
-            if (map.get(localDate) == null){
+            if (map.get(localDate) == null) {
                 map.put(localDate, order.sum);
             } else {
                 map.put(localDate, map.get(localDate) + order.sum);
@@ -222,14 +227,16 @@ public class OrderProcessor {
 
     public static void main(String[] args) throws IOException {
 
-        Files.setAttribute(Paths.get("D:\\H17\\processor\\S03-P01X05-0001.csv")
-                , "lastModifiedTime"
-                , FileTime.from(Instant.parse("2020-12-23T19:34:50.63Z"))
+        // year, month, dayOfMonth, hour, minute, second 2020-01-16T17:16:16
+        LocalDateTime newLocalDateTime = LocalDateTime.of(2020, 1, 16, 17, 16, 16);
+        Instant instant = newLocalDateTime.toInstant(ZoneOffset.ofHours(3));
+        Files.setLastModifiedTime(Paths.get("D:/H17/processor/3/S02-P01X04-0002.csv")
+                , FileTime.from(instant)
         );
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
         System.out.println(processor.loadOrders(null //LocalDate.of(2020, 12, 23)
-                , LocalDate.of(2020, 12, 25)
+                , null//LocalDate.of(2020, 12, 25)
                 , null)
         );
         for (Order o : processor.process(null)
