@@ -129,14 +129,16 @@ public class OrderProcessor {
                 @Override
                 public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
                     if (pathMatcher.matches(path)) {
+                        //System.out.println(path);
                         addOrder(path, start, finish, shopId);
+                    } else {
+                        errCount++;
                     }
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException e) {
-                    errCount++;
                     return FileVisitResult.CONTINUE;
                 }
             });
