@@ -3,6 +3,7 @@ package ru.progwards.java1.lessons.files;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.time.*;
 import java.util.*;
 
@@ -20,14 +21,14 @@ public class OrderProcessor {
     }
 
     private boolean checkStart(LocalDate start, LocalDateTime fileDateTime) {
-        if ((start == null) || (fileDateTime.compareTo(start.atStartOfDay()) >= 0))
+        if ((start == null) || (fileDateTime.isAfter(start.atStartOfDay())))
             return true;
         else
             return false;
     }
 
     private boolean checkFinish(LocalDate finish, LocalDateTime fileDateTime) {
-        if ((finish == null) || (fileDateTime.compareTo(finish.atStartOfDay()) <= 0))
+        if ((finish == null) || (fileDateTime.compareTo(finish.atStartOfDay().plusDays(1)) < 0))
             return true;
         else
             return false;
@@ -233,14 +234,14 @@ public class OrderProcessor {
     public static void main(String[] args) throws IOException {
 
         // year, month, dayOfMonth, hour, minute, second 2020-01-01T13:00
-//        LocalDateTime newLocalDateTime = LocalDateTime.of(2020, 1, 10, 16, 15, 15);
-//        Instant instant = newLocalDateTime.toInstant(ZoneOffset.ofHours(3));
-//        Files.setLastModifiedTime(Paths.get("D:/H17/processor/2/S02-P01X03-0003.csv")
-//                , FileTime.from(instant)
-//        );
+        LocalDateTime newLocalDateTime = LocalDateTime.of(2020, 1, 10, 16, 15, 15);
+        Instant instant = newLocalDateTime.toInstant(ZoneOffset.ofHours(3));
+        Files.setLastModifiedTime(Paths.get("D:/H17/processor/2/S02-P01X02-0003.csv")
+                , FileTime.from(instant)
+        );
 
         OrderProcessor processor = new OrderProcessor("D:/H17/processor");
-        System.out.println(processor.loadOrders(null, null, null)
+        System.out.println(processor.loadOrders(LocalDate.of(2020, Month.JANUARY, 11), null, null)
         );
         for (Order o : processor.process(null)
         ) {
