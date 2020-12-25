@@ -1,6 +1,6 @@
 package ru.progwards.java1.lessons.files;
 
-public class OrderItem {
+public class OrderItem implements Comparable<OrderItem>{
 
     public String googsName; // наименование товара
 
@@ -8,4 +8,8 @@ public class OrderItem {
 
     public double price; // цена за единицу
 
+    @Override
+    public int compareTo(OrderItem o) {
+        return this.googsName.compareTo(o.googsName);
+    }
 }
